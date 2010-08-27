@@ -1,0 +1,5 @@
+1. Put the files on server.
+2. Use sha1.php to generate your password in sha1.
+3. Edit the config.php.
+4. Execute install.php file (prefarably from HTTP).
+5. That's it!
