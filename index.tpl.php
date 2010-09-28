@@ -6,8 +6,8 @@
 Copyright Kwpolska 2010. Licensed on GPLv3. -->
 <h1><?php echo $this->eprint($this->$title) ?></h1>
 <ul>
-	<li><a href="index.php">Home</a></li>
-	<li><a href="login.php">Admin</a></li>
+<li><a href="index.php">Home</a></li>
+<li><a href="login.php">Admin</a></li>
 </ul>
 <?php echo $this->eprint($this->$content) ?>
 <div id="footer">

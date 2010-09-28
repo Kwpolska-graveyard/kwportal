@@ -13,10 +13,10 @@ define('DB_HST', 'localhost'); //host
 define('DB_DSN', 'mysql:host='.DB_HST.';dbname='.DB_NME); // change mysql if needed
 //don't touch:
 function savant($template) {
-include_once 'Savant3.php';
-$tpl = new Savant3();
-$tpl->title = $title;
-$tpl->content = $content;
-$tpl->display($template.'.tpl.php');
+	include_once 'Savant3.php';
+	$tpl = new Savant3();
+	$tpl->title = $title;
+	$tpl->content = $content;
+	$tpl->display($template.'.tpl.php');
 }
 ?>
