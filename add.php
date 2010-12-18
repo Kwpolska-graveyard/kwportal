@@ -6,7 +6,7 @@ include_once './testpriv.php';
 include_once './config.php';
 if (count($_POST) == 0 {
 		$content = '<form method="post" action="add2.php"><input name="title"><br>
-		<textarea cols="80" rows="43" name="english"></textarea><br>
+		<textarea cols="80" rows="24" name="english"></textarea><br>
 		<input name="send" value="Submit [title|content]" type="submit"></form>';
 		} else {
 		try
