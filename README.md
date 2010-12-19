@@ -2,15 +2,15 @@ KwPortal. Old project, new life.
 ==============
 
 PURPOSE
-==============
+-------
 The original KwPortal Renoir was serving for my old devpage. The project was later cancelled.
 
 INSTALLATION
-==============
+------------
 Check out INSTALL.
 
 COPYRIGHT
-==============
+---------
 Copyright (C) 2010 Kwpolska.
 
 This program is free software: you can redistribute it and/or modify
