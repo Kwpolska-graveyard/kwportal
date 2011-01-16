@@ -1,8 +1,10 @@
 <?php
-//KwPortal 3.0 Renoir
-//Copyright Kwpolska 2009-2010.
+//KwPortal
+//Copyright Kwpolska 2009-2011.
+require_once './config.php';
+require_once './init.php';
 session_start();
 session_destroy();
-header('Location: index.php');
-ob_end_flush();
+session_unset();
+echo "See you again!";
 ?>

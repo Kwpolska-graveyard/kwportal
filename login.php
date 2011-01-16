@@ -1,100 +1,89 @@
 <?php
 //KwPortal
-//Copyright Kwpolska 2009-2010. Licensed on GPLv3.
-include_once './config.php';
-ob_start(); 
-$uzytkownicy = array(1 =>
-		array('login' => KP_USR, 'haslo' => KP_PWD));
+//Copyright Kwpolska 2009-2011.
+ob_start();
+echo '<h1>KwPortal</h1>';
+require_once './config.php';
+require_once './init.php';
+function umsSearch($uname, $plainPasswd) {
+    global $users, $salt;
+    $passwd = crypt($plainPasswd, $salt);
+    foreach($users as $id => $user) {
+        if(strtolower($user['uname']) == strtolower($uname) && $user['passwd'] == $passwd) return $id;
+    }
+    return false; // the script will return false if no user was found
+} //end umsSearch();
 
-function czyIstnieje($login, $haslo)
-{
-	global $uzytkownicy;
+if(!isset($_SESSION['uid'])) $_SESSION['uid'] = 0; //anonymous
+if($_SESSION['uid'] > 0) {
+    echo '<ul>
+        <li><a href="./index.php">Home</a></li>
+        <li><a href="./add.php">Add</a></li>
+        <li><a href="./logout.php">Logout</a></li>
+        </ul>
+        Welcome to KwPortal. Here are all of your posts:
+        <ul><form action="del.php" method="POST">';
+    try
+    {
+        $pdo = new PDO($dbdsn, $dbusr, $dbpwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        $pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $pdo -> query('SELECT * FROM `'.$dbtbl.'`');
+        ob_start();
+        foreach($stmt as $row)
+        {
+            $entry = $row['content'];
+            echo "<li><button name=\"delete\" value=\"$entry\">DELETE</button> $entry</li>";
+        }
+        $stmt -> closeCursor();
+    }
+    catch(PDOException $e)
+    {
+        echo 'ERROR: ' . $e->getMessage();
+    }
 
-	$haslo = sha1($haslo);
-
-	foreach($uzytkownicy as $id => $dane)
-	{
-		if($dane['login'] == $login && $dane['haslo'] == $haslo)
-		{
-			// O, jest ktos taki - zwroc jego ID
-			return $id;
-		}
-	}
-	// Jeżeli doszedłeś a tutaj, to takiego użytkownika nie ma
-	return false;
-} // end czyIstnieje();
-function pokazNicka($uid) 
-{
-	global $uzytkownicy;
-	foreach($uzytkownicy as $id => $dane)
-	{
-		if($uid == $id)
-		{
-			// O, jest ktos taki - zwroc jego login
-			return $dane['login'];
-		}
-	}
-	// Jeżeli doszedłeś a tutaj, to takiego użytkownika nie ma
-	return false;
-} // end pokazNicka();
-// Wlasciwy skrypt
-
-session_start();
-
-if (!isset($_SESSION['inicjuj']))
-{
-	session_regenerate_id();
-	$_SESSION['inicjuj'] = true;
-	$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+    die '</form></ul>';
 }
+//Nobody's logged in. Somebody must do so.
 
+//Anybody logged in now?
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(($id = umsSearch($_POST['uname'], $_POST['passwd']) !== false) {
+        //there is such user.
+        $_SESSION['uid'] = $id;
+        echo '<ul>
+            <li><a href="./index.php">Home</a></li>
+            <li><a href="./add.php">Add</a></li>
+            <li><a href="./logout.php">Logout</a></li>
+            </ul>
+            Welcome to KwPortal. Here are all of your posts:
+            <ul><form action="del.php" method="POST">';
+        try
+        {
+            $pdo = new PDO($dbdsn, $dbusr, $dbpwd, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $pdo -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $pdo -> query('SELECT * FROM `'.$dbtbl.'`');
+            ob_start();
+            foreach($stmt as $row)
+            {
+                $entry = $row['content'];
+                echo "<li><button name=\"delete\" value=\"$entry\">DELETE</button> $entry</li>";
+            }
+            $stmt -> closeCursor();
+        }
+        catch(PDOException $e)
+        {
+            echo 'ERROR: ' . $e->getMessage();
+        }
 
-if($_SESSION['ip'] != $_SERVER['REMOTE_ADDR'])
-{
-	die('Wrong IP!');	
+        die '</form></ul>';
+
+    } else {
+        echo "<div class=\"error\">Wrong username or password.</div>";
+    }
 }
-
-
-if(!isset($_SESSION['uzytkownik']))
-{
-	// Sesja się zaczyna, wiec inicjujemy użytkownika anonimowego
-	$_SESSION['uzytkownik'] = 0;
-}
-if($_SESSION['uzytkownik'] > 0)
-{
-	// Ktos jest zalogowany
-	header('Location: ./admin.php');
-}
-else
-{
-	// Niezalogowany
-	if($_SERVER['REQUEST_METHOD'] == 'POST')
-	{
-		if(($id = czyIstnieje($_POST['login'], $_POST['haslo'])) !== false)
-		{
-
-			// Logujemy uzytkownika, wpisal poprawne dane
-			$_SESSION['uzytkownik'] = $id;
-			$_SESSION['uname'] = pokazNicka($id);
-			$_SESSION['isadmin'] = true;
-			header('Location: ./admin.php');
-		}
-		else
-		{
-			$c .= 'Wrong.';
-		}		
-	}
-	else
-	{
-		$_SESSION['uname'] = 'nobody';
-		$c .= '<form action="?" method="post">
-			<fieldset>
-			<input id="login" name="login" />
-			<input id="haslo" type="password" name="haslo" />
-			<input id="send" name="send" value="Submit" type="submit" />
-			</fieldset></form>'; } }
-
-			$title = 'Login';
-			savant('admin');
-			ob_end_flush();
-			?>
+echo '<form method="post" action="?">Please log in.<br>
+<input type="text" name="uname"> Username<br>
+<input type="password" name="passwd"> Password (case-sensitive!)<br>
+<input type="submit" value="Log in">
+</form>';
+?>

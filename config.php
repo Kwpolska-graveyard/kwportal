@@ -1,17 +1,26 @@
 <?php
 //KwPortal
-//Copyright Kwpolska 2010. Licensed on GPLv3.
-define('CONFIGURED', 'false'); //IMPORTANT: change it to true.
-define('KP_USR', 'admin'); //kwportal admin user
-define('KP_PWD', 'SHA1!'); //kwportal admin password. IMPORTANT: use sha1. (sha1.php)
-//database:
-define('DB_USR', 'root'); // database user
-define('DB_PWD', 'password'); // database password
-define('DB_NME', 'db'); //database name
-define('DB_TNM', 'kwportal'); //table name
-define('DB_HST', 'localhost'); //host
-define('DB_DSN', 'mysql:host='.DB_HST.';dbname='.DB_NME); // change mysql if needed
-//don't touch:
+//Copyright Kwpolska 2010-2011.
+
+/// KWPORTAL SETTINGS ///
+$configured = false; //IMPORTANT: change it to true.
+$markdown = true; //if you REALLY don't want to use Markdown and SmartyPants, use this.
+/// USERS SETTINGS ///
+$users = array(1 =>
+   array('uname' => 'USERNAME', 'passwd' => 'A SHA512 PASSWORD'),
+);
+$saltbase = 'kwportalsawesome'; //salt base, up to 16 characters, longer ones will be trimmed
+
+/// DATABASE SETTINGS ///
+$dbusr = 'root'; // database user
+$dbpwd = 'password'; // database password
+$dbnme = 'db'; //database name
+$dbtbl = 'kwportal'; //table name
+$dbhst = 'localhost'; //host
+$dbdsn = 'mysql:host='.$dbhst.';dbname='.$dbnme; // change mysql if needed
+
+/// DYNAMIC SETTINGS ///
+$salt = '$6$rounds=5000$'.$saltbase.'$';
 function savant($template) {
 	include_once 'Savant3.php';
 	$tpl = new Savant3();
