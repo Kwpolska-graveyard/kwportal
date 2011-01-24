@@ -27,7 +27,6 @@ function savant($template) {
    include_once 'Savant3.php';
    $tpl = new Savant3();
    $tpl->setEscape();
-   $tpl->title = KP_NME;
    $tpl->content = $content;
    $tpl->display($template.'.tpl.php');
 }
