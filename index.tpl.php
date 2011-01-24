@@ -2,8 +2,8 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="./style.css">
 <title><?php echo $this->eprint($this->$title) ?></title>
-<!-- KwPortal
-Copyright Kwpolska 2010. Licensed on GPLv3. -->
+<!-- KwPastebin
+Copyright Kwpolska 2010. Licensed under GPLv3. -->
 <h1><?php echo $this->eprint($this->$title) ?></h1>
 <ul>
 <li><a href="index.php">Home</a></li>
