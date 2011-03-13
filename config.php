@@ -3,7 +3,7 @@
 //Copyright Kwpolska 2010-2011.
 
 /// KWPORTAL SETTINGS ///
-$configured = false; //IMPORTANT: change it to true.i
+$configured = false; //IMPORTANT: change it to true.
 $markdown = true; //if you REALLY don't want to use Markdown and SmartyPants, use this.
 
 /// USERS SETTINGS ///

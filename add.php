@@ -5,7 +5,7 @@ require_once './config.php';
 require_once './init.php';
 echo '<h1>KwPortal</h1>
 <ul>
-<li><a href="./index.php">Home</a></li>
+<li><a href="./login.php">Home</a></li>
 <li><a href="./add.php">Add</a></li>
 <li><a href="./logout.php">Logout</a></li>
 </ul>';
