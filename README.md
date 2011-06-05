@@ -1,9 +1,10 @@
-KwPortal. Old project, new life.
+KwPortal.  Old project, new life.
 ==============
 
 PURPOSE
 -------
-The original KwPortal Renoir was serving for my old devpage. The project was later cancelled.
+The original KwPortal Renoir was serving for my old devpage.  The project was
+cancelled.  This is a brand new version.
 
 INSTALLATION
 ------------
